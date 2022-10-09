@@ -11,30 +11,62 @@ class Register extends CI_Controller {
 	        $this->load->model('User_m');
 	    }
 
+	    public function searchingGrid(){
+
+	    	$this->load->view('searchingGrid');
+	    	
+	    }
+	    public function adddata(){
+
+	    	    $data['getdata']=$this->User_m->getjoin();
+
+	    	    print_r($data);exit;
+
+	    }
+	    
 		public function index()
 		{
 			$this->load->view('index');
 		}
 
+		public function gridTable(){
+		
+			$this->load->view('gridTable');
+		}
+
+		public function gridTab(){
+
+			$da = $this->User_m->getdata();
+			$data= array();
+			foreach($da as $key=>$row){
+			     $data[] = array(
+                                 'recid' =>$row['id'],                                       
+                                 'username' => $row['username'],
+                                 'email' => $row['email'] ,
+                                 'status' => $row['status']           
+                                   );
+
+		   }
+           //echo "<pre>";
+		  // print_r($data);exit;
+		   echo json_encode($data);
+		}
 
 		 public function otpVerify(){
 		    
 		    $this->load->view('otpverify');
 		    
 		  }
-
 		   public function dashboard(){
 		    
 		    $this->load->view('thankyou');
 		    
 		  }
-
 		  public function login_id(){
 
 		  	 $this->load->view('login');
 
 		  }
-
 		  public function otpVerified(){
 		    $uid=$this->session->userdata('id');
 		  	$otp = $this->input->post('otp');
@@ -56,8 +88,6 @@ class Register extends CI_Controller {
 		  	else{
 		  		echo 2;
 		  	}
-
-		  	
 
 		  }
 
@@ -102,7 +132,6 @@ class Register extends CI_Controller {
             'wordwrap' => TRUE,
 
         );*/
-
         $config = Array(
             'protocol' => 'mail',
             'smtp_host' => 'mail.madkunj.in',
